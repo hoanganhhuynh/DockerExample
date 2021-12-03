@@ -30,23 +30,12 @@ namespace DockerExample
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            //services.AddDbContext<DockerExempleDbContext>(options =>
-            //{
-            //    options.UseSqlServer(Configuration.GetConnectionString("DockerExample"));
-            //});
-
             services.AddDbContext<DockerExempleDbContext>(options =>
             {
-                var server = Configuration["ServerName"];
-                var port = "1433";
-                var database = Configuration["Database"];
-                var user = Configuration["UserName"];
-                var password = Configuration["Password"];
-
-                options.UseSqlServer(
-                    $"Server={server},{port};Initial Catalog={database};User ID={user};Password={password}",
-                    sqlServer => sqlServer.MigrationsAssembly("DockerExample"));
+                var connectionString = Configuration.GetConnectionString("DockerExample");
+                options.UseSqlServer(Configuration.GetConnectionString("DockerExample"));
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
