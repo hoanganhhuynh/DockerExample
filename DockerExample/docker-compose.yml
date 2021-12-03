@@ -1,0 +1,22 @@
+version: '3.8'
+services: 
+    database:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        environment: 
+            ACCEPT_EULA: "Y"
+            MSSQL_PID: Express
+            SA_PASSWORD: MyPass@word
+        ports: 
+            - "1433:1433"
+    dockerexample:
+        depends_on:
+            - database
+        build: .
+        environment: 
+            ServerName: "database"
+            Database: "DockerExample"
+            UserName: "SA"
+            Password: "MyPass@word"
+            DATABASE_PUBLIC_URL: "database"
+        ports: 
+            - "8080:80"
